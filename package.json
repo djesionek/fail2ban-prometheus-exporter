@@ -1,0 +1,9 @@
+{
+    "name": "fail2ban-prometheus-exporter",
+    "description": "Minimal exporter for fail2ban statistics for prometheus",
+    "version": "0.0.1",
+    "devDependencies": {
+      "minimist": "*",
+      "geoip-lite": "*"
+    }
+  }
