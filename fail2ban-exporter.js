@@ -31,19 +31,22 @@ if (file === undefined){
 var ret = "";
 
 function startRead(){
+
+    var tags = '{jail="' + jail + '"}'
+
     var lineReader = readline.createInterface({
         input: require('fs').createReadStream(file)
     });
 
     lineReader.on('line', function (line) {
         if (line.includes("Total banned")){
-            ret += 'fail2ban_banned_total ' + line.replace(/.*Total banned:\s/, "").trim() + '\n';
+            ret += 'fail2ban_banned_total' + tags + ' ' + line.replace(/.*Total banned:\s/, "").trim() + '\n';
         } else if (line.includes("Currently banned")){
-            ret += 'fail2ban_banned_current ' + line.replace(/.*Currently banned:\s/, "").trim() + '\n';
+            ret += 'fail2ban_banned_current' + tags + ' ' + line.replace(/.*Currently banned:\s/, "").trim() + '\n';
         } else if (line.includes("Total failed")){
-            ret += 'fail2ban_failed_total ' + line.replace(/.*Total failed:\s/, "").trim() + '\n';
+            ret += 'fail2ban_failed_total' + tags + ' ' + line.replace(/.*Total failed:\s/, "").trim() + '\n';
         } else if (line.includes("Currently failed")){
-            ret += 'fail2ban_failed_current ' + line.replace(/.*Currently failed:\s/, "").trim() + '\n';
+            ret += 'fail2ban_failed_current' + tags + ' ' + line.replace(/.*Currently failed:\s/, "").trim() + '\n';
         } else if (line.includes("Banned IP list")){
             ret += handleIPList(line.replace(/.*Banned IP list:\s/, "").split(" ")) + '\n';
         }   
@@ -71,7 +74,7 @@ function handleIPList(list){
 
     for (var k in map){
         if (map.hasOwnProperty(k)) {
-            ret += 'fail2ban_banned_location{country="' + k + '"} ' + map[k] + '\n';
+            ret += 'fail2ban_banned_location{country="' + k + '",jail="' + jail + '"} ' + map[k] + '\n';
         }
     }
 
