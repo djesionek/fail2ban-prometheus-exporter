@@ -1,7 +1,6 @@
 const args = require('minimist')(process.argv.slice(2));
 const geoip = require('geoip-lite');
 const fs = require('fs');
-const { writeFile, rename, } = require('fs');
 const readline = require('readline');
 var exec = require('child_process').exec;
 
@@ -104,11 +103,11 @@ function writeFileTransactional (path, content, cb) {
     // implementation ensures that any files left behind during an 
     //unclean termination will be cleaned up on a future run.
     let temporaryPath = `${path}.new`;
-    writeFile(temporaryPath, content, function (err) {
+    fs.writeFile(temporaryPath, content, function (err) {
         if (err) {
             return cb(err);
         }
 
-        rename(temporaryPath, path, cb);
+        fs.rename(temporaryPath, path, cb);
     });
 };
