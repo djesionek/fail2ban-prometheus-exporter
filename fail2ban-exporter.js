@@ -63,7 +63,13 @@ function handleIPList(list){
     var ret = "";
 
     list.forEach(ip => {
-        var cc = geoip.lookup(ip).country;
+        var lookup = geoip.lookup(ip);
+        var cc = "unknown"
+       
+        if (lookup && lookup.country){
+            cc = lookup.country;
+        }
+
 
         if (!map[cc]){
             map[cc] = 1;
